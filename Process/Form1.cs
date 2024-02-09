@@ -15,7 +15,7 @@ namespace Process
 		public Form1()
 		{
 			InitializeComponent();
-			rtbProcessName.Text = "notepad";
+			//rtbProcessName.Text = "notepad";
 			AllignText();
 		}
 
@@ -32,23 +32,24 @@ namespace Process
 		{
 			InitProcess();
 			myProcess.Start();
-			Info();
 		}
 
 		private void btnStop_Click(object sender, EventArgs e)
 		{
-			myProcess.CloseMainWindow();	// Закрывает процесс
-			myProcess.Close();				// Освобождает ресурсы, занимаемые процессом
+			myProcess.CloseMainWindow();    // Закрывает процесс
+			//myProcess.WaitForExit();		// Ждёт закрытия процесса
+			myProcess.Close();              // Освобождает ресурсы, занимаемые процессом
+			//myProcess.Kill();				// Секир башка
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			btnStop_Click(sender, e);
 		}
-		void Info()
+		void Info() //Выяснить, почему при закрытии калькулятора падает исключение - калькулятор запускается в несколько потоков, поэтому при закрытии первого потока не затрагивает сам процесс.
 		{
 			lblProcessInfo.Text = "Process info:\n";
-			lblProcessInfo.Text += $"Name:			{myProcess.ProcessName}			\n";
+			lblProcessInfo.Text += $"Name:					{myProcess.ProcessName}			\n";
 			lblProcessInfo.Text += $"PID:					{myProcess.Id}					\n";
 			lblProcessInfo.Text += $"Session Id:			{myProcess.SessionId}			\n";
 			lblProcessInfo.Text += $"Base Priority:			{myProcess.BasePriority}		\n";
@@ -58,6 +59,11 @@ namespace Process
 			lblProcessInfo.Text += $"User Processor Time:	{myProcess.UserProcessorTime}	\n";
 			lblProcessInfo.Text += $"Affinity:				{myProcess.ProcessorAffinity}	\n";
 			lblProcessInfo.Text += $"Threads:				{myProcess.Threads.Count}		\n";
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			Info();
 		}
 	}
 }

@@ -28,11 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.rtbProcessName = new System.Windows.Forms.RichTextBox();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.btnStop = new System.Windows.Forms.Button();
 			this.lblProcessInfo = new System.Windows.Forms.Label();
 			this.myProcess = new System.Diagnostics.Process();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// rtbProcessName
@@ -83,6 +85,10 @@
 			this.myProcess.StartInfo.UserName = "";
 			this.myProcess.SynchronizingObject = this;
 			// 
+			// timer1
+			// 
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,6 +113,7 @@
 		private System.Windows.Forms.Button btnStop;
 		private System.Windows.Forms.Label lblProcessInfo;
 		private System.Diagnostics.Process myProcess;
+		private System.Windows.Forms.Timer timer1;
 	}
 }
 
