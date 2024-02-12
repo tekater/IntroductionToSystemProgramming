@@ -36,7 +36,6 @@
 			this.lblProcessInfo = new System.Windows.Forms.Label();
 			this.myProcess = new System.Diagnostics.Process();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.splitter2 = new System.Windows.Forms.Splitter();
 			this.panelMainInfo = new System.Windows.Forms.Panel();
@@ -44,7 +43,7 @@
 			this.lblPanelInfo = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.panel3 = new System.Windows.Forms.Panel();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			this.lvProcesses = new System.Windows.Forms.ListView();
 			this.panelMainInfo.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -58,7 +57,7 @@
 			this.rtbProcessName.Name = "rtbProcessName";
 			this.rtbProcessName.Size = new System.Drawing.Size(128, 31);
 			this.rtbProcessName.TabIndex = 0;
-			this.rtbProcessName.Text = "calc.exe";
+			this.rtbProcessName.Text = "notepad";
 			// 
 			// btnStart
 			// 
@@ -109,14 +108,6 @@
 			// 
 			this.timer1.Interval = 1000;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// dataGridView1
-			// 
-			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Location = new System.Drawing.Point(12, 49);
-			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(387, 270);
-			this.dataGridView1.TabIndex = 4;
 			// 
 			// splitter1
 			// 
@@ -179,18 +170,30 @@
 			this.panel3.Size = new System.Drawing.Size(7, 341);
 			this.panel3.TabIndex = 9;
 			// 
+			// lvProcesses
+			// 
+			this.lvProcesses.BackColor = System.Drawing.SystemColors.Control;
+			this.lvProcesses.FullRowSelect = true;
+			this.lvProcesses.HideSelection = false;
+			this.lvProcesses.Location = new System.Drawing.Point(13, 49);
+			this.lvProcesses.Name = "lvProcesses";
+			this.lvProcesses.Size = new System.Drawing.Size(386, 270);
+			this.lvProcesses.TabIndex = 10;
+			this.lvProcesses.UseCompatibleStateImageBehavior = false;
+			this.lvProcesses.View = System.Windows.Forms.View.Details;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.GrayText;
 			this.ClientSize = new System.Drawing.Size(821, 331);
+			this.Controls.Add(this.lvProcesses);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.panelMainInfo);
 			this.Controls.Add(this.splitter2);
 			this.Controls.Add(this.splitter1);
-			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.btnStop);
 			this.Controls.Add(this.btnStart);
 			this.Controls.Add(this.rtbProcessName);
@@ -199,7 +202,6 @@
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.panelMainInfo.ResumeLayout(false);
 			this.panelMainInfo.PerformLayout();
 			this.panel2.ResumeLayout(false);
@@ -217,7 +219,6 @@
 		private System.Windows.Forms.Label lblProcessInfo;
 		private System.Diagnostics.Process myProcess;
 		private System.Windows.Forms.Timer timer1;
-		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.Splitter splitter2;
 		private System.Windows.Forms.Splitter splitter1;
 		private System.Windows.Forms.Panel panelMainInfo;
@@ -225,6 +226,7 @@
 		private System.Windows.Forms.Label lblPanelInfo;
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.ListView lvProcesses;
 	}
 }
 

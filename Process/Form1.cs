@@ -9,6 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
+/* 
+ COMMIT CHANGES:
+ 1. ADD/DEL DONE
+ 1.1. FORM UPDATE
+ 2. ProcInfo DONE
+ 3. 
+ */
+
 namespace Process
 {
 	public partial class Form1 : Form
@@ -21,15 +29,21 @@ namespace Process
 			process_list = new List<System.Diagnostics.Process>();
 			AllignText();
 			//InitProcess();
+			lvProcesses.Columns.Add("PID");
+			lvProcesses.Columns.Add("NAME");
 		}
-
 		void InitProcess()
 		{
 			AllignText();
 			myProcess = new System.Diagnostics.Process();
 			myProcess.StartInfo = new System.Diagnostics.ProcessStartInfo(rtbProcessName.Text);
 			myProcess.Start();
+
 			process_list.Add(myProcess);
+			//lvProcesses.Items.Add(myProcess.ToString());
+
+			lvProcesses.Items.Add(myProcess.Id.ToString());
+			lvProcesses.Items[lvProcesses.Items.Count - 1].SubItems.Add(myProcess.ProcessName);
 		}
 		void AllignText()
 		{
@@ -39,22 +53,32 @@ namespace Process
 		private void btnStart_Click(object sender, EventArgs e)
 		{
 			InitProcess();
-			//myProcess.Start();
 			timer1.Enabled = true;
 			this.TopMost = true;
 		}
-
 		private void btnStop_Click(object sender, EventArgs e)
 		{
-			if (process_list.Count > 0)
+			//if (process_list.Count > 0)
+			if(lvProcesses.Items.Count > 0)
 			{
-				myProcess = process_list.Last();
-				myProcess.CloseMainWindow();    // Закрывает процесс
-												//myProcess.WaitForExit();		// Ждёт закрытия процесса
-				myProcess.Close();              // Освобождает ресурсы, занимаемые процессом
-				//myProcess.Kill();				// Секир башка
-				process_list.RemoveAt(process_list.Count - 1);
-				
+				try
+				{
+					//myProcess = process_list.Last();
+					myProcess = System.Diagnostics.Process.GetProcessById(Convert.ToInt32(lvProcesses.Items[lvProcesses.Items.Count - 1].Text));
+
+					myProcess.CloseMainWindow();    // Закрывает процесс
+					//myProcess.WaitForExit();		// Ждёт закрытия процесса
+					myProcess.Close();              // Освобождает ресурсы, занимаемые процессом
+					//myProcess.Kill();				// Секир башка
+
+					//process_list.RemoveAt(process_list.Count - 1);
+					lvProcesses.Items.RemoveAt(lvProcesses.Items.Count - 1);
+				}
+				catch (Exception ex)
+				{
+					//process_list.RemoveAt(process_list.Count - 1);
+					lvProcesses.Items.RemoveAt(lvProcesses.Items.Count - 1);
+				}
 			}
 		}
 
@@ -67,27 +91,51 @@ namespace Process
 				i.Close();
 				process_list.RemoveAt(0);
 			}*/
-			while(process_list.Count > 0)
+
+			while (process_list.Count > 0)
 			{
-				process_list.First().CloseMainWindow();
-				process_list.First().Close();
-				process_list.RemoveAt(0);
+				try
+				{
+					process_list.First().CloseMainWindow();
+					process_list.First().Close();
+					process_list.RemoveAt(0);
+				}
+				catch (Exception ex)
+				{
+					process_list.RemoveAt(0);
+				}
 			}
+
+			/*while(lvProcesses.Items.Count > 0)
+			{
+				try
+				{
+					process_list.First().CloseMainWindow();
+					process_list.First().Close();
+					process_list.RemoveAt(0);
+				}
+				catch (Exception ex)
+				{
+					process_list.RemoveAt(0);
+				}
+			}*/
+			 
 		}
 		void Info() //Выяснить, почему при закрытии калькулятора падает исключение - калькулятор запускается в несколько потоков, поэтому при закрытии первого потока не затрагивает сам процесс.
-		{
+		{			// Калькулятор запускается как самостоятельный процесс.
 			if (process_list.Count > 0)
 			{
 				myProcess = process_list.First();
 				//lblProcessInfo.Text = "Process info:\n";
 				//lblProcessInfo.Text = "";
-				lblProcessInfo.Text = "Total process Count: "		+ $"{process_list.Count}					\n";
+				//lblProcessInfo.Text = "Total process Count: "		+	$"{process_list.Count}					\n";
+				lblProcessInfo.Text = "Total process Count: "		+	$"{lvProcesses.Items.Count}				\n";
 				lblProcessInfo.Text += "Current Process															\n";
-				lblProcessInfo.Text += "Name: "						+ $"{myProcess.ProcessName}					\n";
-				lblProcessInfo.Text += "PID: "						+ $"{myProcess.Id}							\n";
-				lblProcessInfo.Text += "Session Id: "				+ $"{myProcess.SessionId}					\n";
-				lblProcessInfo.Text += "Base Priority: "			+ $"{myProcess.BasePriority}				\n";
-				lblProcessInfo.Text += "Priority Class: "			+ $"{myProcess.PriorityClass}				\n";
+				lblProcessInfo.Text += "Name: "						+	$"{myProcess.ProcessName}				\n";
+				lblProcessInfo.Text += "PID: "						+	$"{myProcess.Id}						\n";
+				lblProcessInfo.Text += "Session Id: "				+	$"{myProcess.SessionId}					\n";
+				lblProcessInfo.Text += "Base Priority: "			+	$"{myProcess.BasePriority}				\n";
+				lblProcessInfo.Text += "Priority Class: "			+	$"{myProcess.PriorityClass}				\n";
 				lblProcessInfo.Text += "Start Time: "				+	$"{myProcess.StartTime.Hour}:"			+
 																		$"{myProcess.StartTime.Minute}			\n";
 				lblProcessInfo.Text += "Total Processor Time: "		+	$"{myProcess.TotalProcessorTime.Seconds}\n";
