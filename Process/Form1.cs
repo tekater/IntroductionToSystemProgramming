@@ -123,9 +123,9 @@ namespace Process
 		}
 		void Info() //Выяснить, почему при закрытии калькулятора падает исключение - калькулятор запускается в несколько потоков, поэтому при закрытии первого потока не затрагивает сам процесс.
 		{			// Калькулятор запускается как самостоятельный процесс.
-			if (process_list.Count > 0)
+			if (lvProcesses.Items.Count > 0)
 			{
-				myProcess = process_list.First();
+				myProcess = System.Diagnostics.Process.GetProcessById(Convert.ToInt32(lvProcesses.Items[lvProcesses.Items.Count].Text));
 				//lblProcessInfo.Text = "Process info:\n";
 				//lblProcessInfo.Text = "";
 				//lblProcessInfo.Text = "Total process Count: "		+	$"{process_list.Count}					\n";
@@ -150,9 +150,42 @@ namespace Process
 			}
 		}
 
+		void Info2()
+		{
+			if (lvProcesses.Items.Count > 0)
+			{
+				
+				lblProcessInfo.Text = "Total process Count: " + $"{lvProcesses.Items.Count}				\n";
+				lblProcessInfo.Text += "Current Process															\n";
+				lblProcessInfo.Text += "Name: " + $"{myProcess.ProcessName}				\n";
+				lblProcessInfo.Text += "PID: " + $"{myProcess.Id}						\n";
+				lblProcessInfo.Text += "Session Id: " + $"{myProcess.SessionId}					\n";
+				lblProcessInfo.Text += "Base Priority: " + $"{myProcess.BasePriority}				\n";
+				lblProcessInfo.Text += "Priority Class: " + $"{myProcess.PriorityClass}				\n";
+				lblProcessInfo.Text += "Start Time: " + $"{myProcess.StartTime.Hour}:" +
+																		$"{myProcess.StartTime.Minute}			\n";
+				lblProcessInfo.Text += "Total Processor Time: " + $"{myProcess.TotalProcessorTime.Seconds}\n";
+				lblProcessInfo.Text += "User Processor Time: " + $"{myProcess.UserProcessorTime.Seconds}	\n";
+				lblProcessInfo.Text += "Affinity: " + $"{myProcess.ProcessorAffinity}			\n";
+				lblProcessInfo.Text += "Threads: " + $"{myProcess.Threads.Count}				\n";
+			}
+			else
+			{
+				lblProcessInfo.Text = "LoadInfo...";
+				timer1.Enabled = false;
+			}
+		}
+
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			Info();
+			Info2();
+		}
+
+		private void lvProcesses_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			myProcess = System.Diagnostics.Process.GetProcessById(Convert.ToInt32(lvProcesses.Items[lvProcesses.TabIndex].Text));
+			Info2();
+			
 		}
 	}
 }
