@@ -14,7 +14,8 @@ using System.Diagnostics;
  1. ADD/DEL DONE
  1.1. FORM UPDATE
  2. ProcInfo DONE
- 3. 
+ 3. Proc AutoClose DONE
+ 4. Process InfoRealtime DONE
  */
 
 namespace Process
@@ -129,19 +130,23 @@ namespace Process
 				//lblProcessInfo.Text = "Process info:\n";
 				//lblProcessInfo.Text = "";
 				//lblProcessInfo.Text = "Total process Count: "		+	$"{process_list.Count}					\n";
-				lblProcessInfo.Text = "Total process Count: "		+	$"{lvProcesses.Items.Count}				\n";
-				lblProcessInfo.Text += "Current Process															\n";
-				lblProcessInfo.Text += "Name: "						+	$"{myProcess.ProcessName}				\n";
-				lblProcessInfo.Text += "PID: "						+	$"{myProcess.Id}						\n";
-				lblProcessInfo.Text += "Session Id: "				+	$"{myProcess.SessionId}					\n";
-				lblProcessInfo.Text += "Base Priority: "			+	$"{myProcess.BasePriority}				\n";
-				lblProcessInfo.Text += "Priority Class: "			+	$"{myProcess.PriorityClass}				\n";
-				lblProcessInfo.Text += "Start Time: "				+	$"{myProcess.StartTime.Hour}:"			+
-																		$"{myProcess.StartTime.Minute}			\n";
-				lblProcessInfo.Text += "Total Processor Time: "		+	$"{myProcess.TotalProcessorTime.Seconds}\n";
-				lblProcessInfo.Text += "User Processor Time: "		+	$"{myProcess.UserProcessorTime.Seconds}	\n";
-				lblProcessInfo.Text += "Affinity: "					+	$"{myProcess.ProcessorAffinity}			\n";
-				lblProcessInfo.Text += "Threads: "					+	$"{myProcess.Threads.Count}				\n";
+				lblProcessInfo.Text = "Total process Count: "		+	$"{lvProcesses.Items.Count}						\n";
+				lblProcessInfo.Text += "Current Process																	\n";
+				lblProcessInfo.Text += "Name: "						+	$"{myProcess.ProcessName}						\n";
+				lblProcessInfo.Text += "PID: "						+	$"{myProcess.Id}								\n";
+				lblProcessInfo.Text += "Session Id: "				+	$"{myProcess.SessionId}							\n";
+				lblProcessInfo.Text += "Base Priority: "			+	$"{myProcess.BasePriority}						\n";
+				lblProcessInfo.Text += "Priority Class: "			+	$"{myProcess.PriorityClass}						\n";
+				lblProcessInfo.Text += "Start Time: "				+	$"{myProcess.StartTime.Hour}:"					+
+																		$"{myProcess.StartTime.Minute}					\n";
+				lblProcessInfo.Text += "Total Processor Time: "		+	$"{myProcess.TotalProcessorTime.Minutes}"		+
+																		$"{myProcess.TotalProcessorTime.Seconds}"		+
+																		$"{myProcess.TotalProcessorTime.Milliseconds}	\n";
+				lblProcessInfo.Text += "User Processor Time: "		+	$"{myProcess.UserProcessorTime.Minutes}"		+
+																		$"{myProcess.UserProcessorTime.Seconds}"		+
+																		$"{myProcess.UserProcessorTime.Milliseconds}	\n";
+				lblProcessInfo.Text += "Affinity: "					+	$"{myProcess.ProcessorAffinity}					\n";
+				lblProcessInfo.Text += "Threads: "					+	$"{myProcess.Threads.Count}						\n";
 			}
 			else
 			{
@@ -154,20 +159,23 @@ namespace Process
 		{
 			if (lvProcesses.Items.Count > 0)
 			{
-				
-				lblProcessInfo.Text = "Total process Count: " + $"{lvProcesses.Items.Count}				\n";
-				lblProcessInfo.Text += "Current Process															\n";
-				lblProcessInfo.Text += "Name: " + $"{myProcess.ProcessName}				\n";
-				lblProcessInfo.Text += "PID: " + $"{myProcess.Id}						\n";
-				lblProcessInfo.Text += "Session Id: " + $"{myProcess.SessionId}					\n";
-				lblProcessInfo.Text += "Base Priority: " + $"{myProcess.BasePriority}				\n";
-				lblProcessInfo.Text += "Priority Class: " + $"{myProcess.PriorityClass}				\n";
-				lblProcessInfo.Text += "Start Time: " + $"{myProcess.StartTime.Hour}:" +
-																		$"{myProcess.StartTime.Minute}			\n";
-				lblProcessInfo.Text += "Total Processor Time: " + $"{myProcess.TotalProcessorTime.Seconds}\n";
-				lblProcessInfo.Text += "User Processor Time: " + $"{myProcess.UserProcessorTime.Seconds}	\n";
-				lblProcessInfo.Text += "Affinity: " + $"{myProcess.ProcessorAffinity}			\n";
-				lblProcessInfo.Text += "Threads: " + $"{myProcess.Threads.Count}				\n";
+				lblProcessInfo.Text = "Total process Count: "	+		$"{lvProcesses.Items.Count}						\n";
+				lblProcessInfo.Text += "Current Process																	\n";
+				lblProcessInfo.Text += "Name: "					+		$"{myProcess.ProcessName}						\n";
+				lblProcessInfo.Text += "PID: "					+		$"{myProcess.Id}								\n";
+				lblProcessInfo.Text += "Session Id: "			+		$"{myProcess.SessionId}							\n";
+				lblProcessInfo.Text += "Base Priority: "		+		$"{myProcess.BasePriority}						\n";
+				lblProcessInfo.Text += "Priority Class: "		+		$"{myProcess.PriorityClass}						\n";
+				lblProcessInfo.Text += "Start Time: "			+		$"{myProcess.StartTime.Hour}:"					+
+																		$"{myProcess.StartTime.Minute}					\n";
+				lblProcessInfo.Text += "Total Processor Time: " +		$"{myProcess.TotalProcessorTime.Minutes}:"		+
+																		$"{myProcess.TotalProcessorTime.Seconds}:"		+
+																		$"{myProcess.TotalProcessorTime.Milliseconds}	\n";
+				lblProcessInfo.Text += "User Processor Time: "	+		$"{myProcess.UserProcessorTime.Minutes}:"		+
+																		$"{myProcess.UserProcessorTime.Seconds}:"		+
+																		$"{myProcess.UserProcessorTime.Milliseconds}	\n";
+				lblProcessInfo.Text += "Affinity: "				+		$"{myProcess.ProcessorAffinity}					\n";
+				lblProcessInfo.Text += "Threads: "				+		$"{myProcess.Threads.Count}						\n";
 			}
 			else
 			{
@@ -183,9 +191,9 @@ namespace Process
 
 		private void lvProcesses_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			myProcess = System.Diagnostics.Process.GetProcessById(Convert.ToInt32(lvProcesses.Items[lvProcesses.TabIndex].Text));
+			if(lvProcesses.SelectedIndices.Count > 0)
+			myProcess = System.Diagnostics.Process.GetProcessById(Convert.ToInt32(lvProcesses.Items[lvProcesses.SelectedIndices[0]].Text));
 			Info2();
-			
 		}
 	}
 }
