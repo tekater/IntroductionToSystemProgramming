@@ -53,13 +53,13 @@ namespace InterprocessCommunication
 			string except = new FileInfo(Application.ExecutablePath).Name;
 			except.Substring(0, except.IndexOf("."));
 			//string[] files = Directory.GetFiles(Application.StartupPath, "*.exe");
-			LoadFilesByType(path, ".exe");
-			LoadFilesByType(path, ".lnk");
+			LoadFilesByType(path, "*.exe");
+			LoadFilesByType(path, "*.lnk");
 			//string[] files = Directory.GetFiles(Application.StartupPath, "*.lnk");
 		}
 		void LoadFilesByType(string path,string format)
 		{
-			string[] files = Directory.GetFiles(path, "*.exe");
+			string[] files = Directory.GetFiles(path, format);
 
 			foreach (string file in files)
 			{
