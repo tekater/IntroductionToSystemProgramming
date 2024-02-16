@@ -36,6 +36,7 @@
 			this.btnStop = new System.Windows.Forms.Button();
 			this.btnCloseWindow = new System.Windows.Forms.Button();
 			this.btnRefresh = new System.Windows.Forms.Button();
+			this.btnDirectory = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lbProcesses
@@ -96,7 +97,7 @@
 			// btnStop
 			// 
 			this.btnStop.BackColor = System.Drawing.SystemColors.InactiveBorder;
-			this.btnStop.Location = new System.Drawing.Point(264, 194);
+			this.btnStop.Location = new System.Drawing.Point(264, 107);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(170, 34);
 			this.btnStop.TabIndex = 5;
@@ -126,12 +127,24 @@
 			this.btnRefresh.UseVisualStyleBackColor = false;
 			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
 			// 
+			// btnDirectory
+			// 
+			this.btnDirectory.BackColor = System.Drawing.SystemColors.Info;
+			this.btnDirectory.Location = new System.Drawing.Point(264, 194);
+			this.btnDirectory.Name = "btnDirectory";
+			this.btnDirectory.Size = new System.Drawing.Size(170, 34);
+			this.btnDirectory.TabIndex = 8;
+			this.btnDirectory.Text = "Directory";
+			this.btnDirectory.UseVisualStyleBackColor = false;
+			this.btnDirectory.Click += new System.EventHandler(this.btnDirectory_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Menu;
 			this.ClientSize = new System.Drawing.Size(702, 280);
+			this.Controls.Add(this.btnDirectory);
 			this.Controls.Add(this.btnRefresh);
 			this.Controls.Add(this.btnCloseWindow);
 			this.Controls.Add(this.btnStop);
@@ -159,6 +172,7 @@
 		private System.Windows.Forms.Button btnStop;
 		private System.Windows.Forms.Button btnCloseWindow;
 		private System.Windows.Forms.Button btnRefresh;
+		private System.Windows.Forms.Button btnDirectory;
 	}
 }
 

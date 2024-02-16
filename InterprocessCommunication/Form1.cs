@@ -23,30 +23,47 @@ namespace InterprocessCommunication
 		public static extern IntPtr SendMessage(IntPtr hwnd, uint uMsg, int wParam, [MarshalAs(UnmanagedType.LPStr)] string lParam);
 		List<Process> processes = new List<Process>();
 		int count = 0;
+		string path;
+		public string Path
+		{
+			get => path;
+			set 
+			{
+				path = value;
+				LoadAvailableAssemblies(path);
+			}
+		}
 		public Form1()
 		{
 			InitializeComponent();
-			LoadAvailableAssemblies();
+			Path = Application.StartupPath;
+
+			//LoadAvailableAssemblies(Path);
+
 			btnStart.Enabled = false;
+			btnStop.Enabled = false;
 			btnCloseWindow.Enabled = false;
+
 		}
 
-		void LoadAvailableAssemblies()
+		void LoadAvailableAssemblies(string path)
 		{
-			/*MessageBox.Show
-				(
-				this,
-				Application.StartupPath,
-				"Super Puper Duper Mega INFORMATION",
-				MessageBoxButtons.OK,
-				MessageBoxIcon.Information
-				);*/
+			/*MessageBox.Show(this,Application.StartupPath,"Super Puper Duper Mega INFORMATION",MessageBoxButtons.OK,MessageBoxIcon.Information);*/
+
 			string except = new FileInfo(Application.ExecutablePath).Name;
 			except.Substring(0, except.IndexOf("."));
-			string[] files = Directory.GetFiles(Application.StartupPath, "*.exe");
+			//string[] files = Directory.GetFiles(Application.StartupPath, "*.exe");
+			LoadFilesByType(path, ".exe");
+			LoadFilesByType(path, ".lnk");
+			//string[] files = Directory.GetFiles(Application.StartupPath, "*.lnk");
+		}
+		void LoadFilesByType(string path,string format)
+		{
+			string[] files = Directory.GetFiles(path, "*.exe");
 
 			foreach (string file in files)
 			{
+				string except = new FileInfo(Application.ExecutablePath).Name;
 				string fileName = new FileInfo(file).Name;
 
 				if (fileName.IndexOf(except) == -1)
@@ -56,37 +73,54 @@ namespace InterprocessCommunication
 			}
 		}
 
-		void RunProcess(string assemlyName)
+		void RunProcess(string assemblyName)
 		{
-			Process proc = Process.Start(assemlyName);
-			//proc.Start(assemlyName);
-
-			//Process proc = new Process.Start(AssemlyName);
-
-			processes.Add(proc);
-			if (Process.GetCurrentProcess().Id == GetParentProcessID(proc.Id));
+			if (assemblyName.Length != 0 && (assemblyName.Contains(".exe") || assemblyName.Contains(".lnk")))
 			{
-				/*MessageBox.Show
+
+				Process proc = new Process();
+				proc.StartInfo = new ProcessStartInfo(assemblyName);
+				proc.Start();
+				//proc.Start(assemblyName);
+
+				//Process proc = new Process.Start(AssemlyName);
+
+				processes.Add(proc);
+				if (Process.GetCurrentProcess().Id == GetParentProcessID(proc.Id))
+				{
+					/*MessageBox.Show
+						(
+						this,
+						proc.ProcessName + " дочерний поток текущего процесса.",
+						"Info",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Information
+						);*/
+
+					proc.EnableRaisingEvents = true;
+					proc.Exited += Proc_Exited;
+
+					SendMessage(proc.MainWindowHandle, WM_SETTEXT, 0, $"Child process #{count++}");
+
+					if (!lbProcesses.Items.Contains(proc.ProcessName))
+					{
+						lbProcesses.Items.Add(proc.ProcessName);
+						lbAssemblies.Items.Remove(lbAssemblies.SelectedItem);
+					}
+				}
+
+			}
+			else
+			{
+				MessageBox.Show
 					(
 					this,
-					proc.ProcessName + " дочерний поток текущего процесса.",
-					"Info",
+					"Выберите сборку",
+					"The Information Text",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Information
-					);*/
-
-				proc.EnableRaisingEvents = true;
-				proc.Exited += Proc_Exited;
-
-				SendMessage(proc.MainWindowHandle, WM_SETTEXT, 0, $"Child process #{count++}");
-
-				if (!lbProcesses.Items.Contains(proc.ProcessName))
-				{
-					lbProcesses.Items.Add(proc.ProcessName);
-					lbAssemblies.Items.Remove(lbAssemblies.SelectedItem);
-				}
+					);
 			}
-
 		}
 
 		private void Proc_Exited(object sender, EventArgs e)
@@ -112,7 +146,7 @@ namespace InterprocessCommunication
 		{
 			int parentId = 0;
 
-			using (System.Management.ManagementObject obj = new ManagementObject($"win32_process.handle = {id}"))
+			using (System.Management.ManagementObject obj = new ManagementObject($"win32_process.handle={id}"))
 			{
 				obj.Get();
 				parentId = Convert.ToInt32(obj["ParentProcessId"]);
@@ -146,7 +180,7 @@ namespace InterprocessCommunication
 
 		private void btnStop_Click(object sender, EventArgs e)
 		{
-			ExecuteOnProcessByName(lbProcesses.SelectedItems.ToString(), Kill);
+			ExecuteOnProcessByName(lbProcesses.SelectedItem.ToString(), Kill);
 			lbProcesses.Items.Remove(lbProcesses.SelectedItem);
 		}
 
@@ -157,7 +191,7 @@ namespace InterprocessCommunication
 		}
 		private void btnCloseWindow_Click(object sender, EventArgs e)
 		{
-			ExecuteOnProcessByName(lbProcesses.SelectedItems.ToString(), CloseMainWindow);
+			ExecuteOnProcessByName(lbProcesses.SelectedItem.ToString(), CloseMainWindow);
 			lbProcesses.Items.Remove(lbProcesses.SelectedItem);
 		}
 		void Refresh(Process proc)
@@ -203,5 +237,14 @@ namespace InterprocessCommunication
 				process.Kill();
 			}
 		}
+
+		private void btnDirectory_Click(object sender, EventArgs e)
+		{
+			FolderBrowserDialog dialog = new FolderBrowserDialog();
+			dialog.SelectedPath = Path;
+			dialog.ShowDialog();
+			Path = dialog.SelectedPath;
+		}
+
 	}
 }
