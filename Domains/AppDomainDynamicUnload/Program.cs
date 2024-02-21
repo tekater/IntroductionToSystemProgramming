@@ -28,6 +28,7 @@ namespace AppDomainDynamicUnload
 
 			//6) Вызываем метод:
 			methodInfo.Invoke(null, null);
+
             Console.WriteLine("Press any key to continue...\n");
             Console.ReadLine();
         }
