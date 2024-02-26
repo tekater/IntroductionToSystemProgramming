@@ -43,6 +43,7 @@ namespace Car
 		public void Start()
 		{
 			Started = true;
+
 		}
 		public void Stop()
 		{
@@ -58,6 +59,10 @@ namespace Car
 			Consumption = consumption;
 			Started = false;
 		}
+		~Engine()
+		{
+            Console.WriteLine("Engine is over");
+        }
 		public void Info()
 		{
 			Console.WriteLine($"Consumption per 100km: {Consumption}");

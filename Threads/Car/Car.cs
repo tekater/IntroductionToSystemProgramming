@@ -34,7 +34,10 @@ namespace Car
 			if (max_speed > MAX_SPEED_HIGH_LIMIT) { max_speed = MAX_SPEED_HIGH_LIMIT; }
 			this.MAX_SPEED = max_speed;
 		}
-
+		~Car()
+		{
+            Console.WriteLine("Car is over");
+        }
 		public void GetIn()
 		{
 			driver_inside = true;
@@ -49,6 +52,78 @@ namespace Car
             Console.WriteLine("You are out of the car");
         }
 
+		public void Tanker()
+		{
+			Console.WriteLine("TANK");
+			Console.Write("===-===\n");
+			if (tank.FuelLevel >= tank.Volume * 0.25)
+			{
+				Console.Write(" =---= \n");
+			}
+			else
+			{
+				Console.Write(" =   = \n");
+			}
+
+			if (tank.FuelLevel >= tank.Volume * 0.5)
+			{
+				Console.Write(" =---= \n");
+			}
+			else
+			{
+				Console.Write(" =   = \n");
+			}
+
+			if (tank.FuelLevel >= tank.Volume * 0.75)
+			{
+				Console.Write(" =---= \n");
+			}
+			else
+			{
+				Console.Write(" =   = \n");
+			}
+
+			if (tank.FuelLevel != 0)
+			{
+				Console.Write(" =---= \n");
+			}
+			else
+			{
+				Console.Write(" =   = \n");
+			}
+
+			Console.Write("===-===\n");
+		}
+		void Panel()
+		{
+			while (driver_inside)
+			{
+				Console.Clear();
+				Tanker();
+				Console.WriteLine($"Fuel level: {tank.FuelLevel} liters");
+				if(tank.FuelLevel < 5)
+				{
+                    Console.WriteLine("LOW FUEL");
+                }
+				Console.WriteLine($"Engine is {(engine.Started ? "started" : "stopped")}");
+				Thread.Sleep(200);
+			}
+		}
+		public void Info()
+		{
+			engine.Info();
+			tank.Info();
+			Console.WriteLine($"Max speed: {MAX_SPEED}km/h");
+		}
+
+		void engine_idle()
+		{
+			while(engine.Started) 
+			{
+				tank.give_fuel(engine.ConsumptionPerSecond);
+				Thread.Sleep(1000);
+			}
+		}
 		public void Control()
 		{
             Console.WriteLine("Your car is ready. Press Enter to get in");
@@ -69,8 +144,30 @@ namespace Car
 						}
 						break;
 
+						case ConsoleKey.Escape:
+						GetOut();
+						break;
 
-						case ConsoleKey.F:
+					case ConsoleKey.R:
+						if (driver_inside)
+						{
+							if (!engine.Started)
+							{
+								engine.Start();
+								engine_idle();
+							}
+							else
+							{
+								engine.Stop();
+							}
+						}
+						else
+						{
+							Console.WriteLine("Get in of the car");
+						}
+						break;
+
+					case ConsoleKey.F:
 						if (!driver_inside)
 						{
 							Console.Write("Введите объём топлива: ");
@@ -88,22 +185,5 @@ namespace Car
 
 			} while (key != ConsoleKey.Escape) ;
 		}
-
-		void Panel()
-		{
-			while(driver_inside)
-			{
-				Console.Clear();
-                Console.WriteLine($"Fuel level: {tank.FuelLevel} liters");
-				Console.WriteLine($"Engine is { (engine.Started ? "started" : "stopped") }");
-				Thread.Sleep(200);
-            }
-		}
-		public void Info()
-		{
-			engine.Info();
-			tank.Info();
-            Console.WriteLine($"Max speed: {MAX_SPEED}km/h");
-        }
 	}
 }

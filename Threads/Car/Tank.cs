@@ -18,6 +18,15 @@ namespace Car
 		{
 			get => fuel_level;
 		}
+		public double give_fuel(double amount)
+		{
+			fuel_level -= amount;
+			if (fuel_level < 0)
+			{
+				fuel_level = 0;
+			}
+			return fuel_level;
+		}
 		public Tank(int volume) 
 		{
 			if (volume < MIN_VOLUME) {volume = MIN_VOLUME;}
@@ -26,7 +35,14 @@ namespace Car
 			this.Volume = volume;
 			fuel_level = 0;
 		}
-
+		~Tank()
+		{
+            Console.WriteLine("Tank is over");
+        }
+		public double get_Volume()
+		{
+			return Volume;
+		}
 		public void Fill(double amount)
 		{
 			if (fuel_level + amount <= Volume)
