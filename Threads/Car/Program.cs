@@ -10,9 +10,9 @@ namespace Car
 	{
 		static void Main(string[] args)
 		{
-			Tank tank = new Tank(15);
-			tank.Info();
-			Console.Read();
+			Car car = new Car(10, 40, 250);
+			car.Control();
+            Console.Read();
 		}
 	}
 }

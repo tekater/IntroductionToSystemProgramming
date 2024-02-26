@@ -10,25 +10,9 @@ namespace Car
 	{
 		static readonly int MIN_VOLUME = 20;
 		static readonly int MAX_VOLUME = 120;
-		int volume;
+		readonly int volume;
 		double fuel_level;
-		public int Volume
-		{
-			get => volume;
-			private set
-			{
-				if (value < MIN_VOLUME)
-				{
-					value = MIN_VOLUME;
-				}
-
-				if (value > MAX_VOLUME)
-				{
-					value = MAX_VOLUME;
-				}
-				volume = value;
-			}
-		}
+		public readonly int Volume;
 
 		public double FuelLevel
 		{
@@ -36,11 +20,14 @@ namespace Car
 		}
 		public Tank(int volume) 
 		{
-			Volume = volume;
+			if (volume < MIN_VOLUME) {volume = MIN_VOLUME;}
+			if (volume > MAX_VOLUME) {volume = MAX_VOLUME;}
+
+			this.Volume = volume;
 			fuel_level = 0;
 		}
 
-		void Fill(double amount)
+		public void Fill(double amount)
 		{
 			if (fuel_level + amount <= Volume)
 			{
