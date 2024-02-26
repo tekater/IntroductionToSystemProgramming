@@ -54,9 +54,9 @@
             listViewGroup1,
             listViewGroup2});
 			this.lv_ProcList.HideSelection = false;
-			this.lv_ProcList.Location = new System.Drawing.Point(48, 12);
+			this.lv_ProcList.Location = new System.Drawing.Point(12, 12);
 			this.lv_ProcList.Name = "lv_ProcList";
-			this.lv_ProcList.Size = new System.Drawing.Size(641, 363);
+			this.lv_ProcList.Size = new System.Drawing.Size(519, 363);
 			this.lv_ProcList.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.lv_ProcList.TabIndex = 0;
 			this.lv_ProcList.UseCompatibleStateImageBehavior = false;
@@ -65,30 +65,30 @@
 			// NameProcesses
 			// 
 			this.NameProcesses.Text = "Name";
-			this.NameProcesses.Width = 127;
+			this.NameProcesses.Width = 273;
 			// 
 			// PID
 			// 
 			this.PID.Text = "PID";
-			this.PID.Width = 108;
+			this.PID.Width = 50;
 			// 
 			// Memory
 			// 
 			this.Memory.Text = "Memory";
-			this.Memory.Width = 91;
+			this.Memory.Width = 99;
 			// 
 			// CPU
 			// 
 			this.CPU.Text = "CPU";
-			this.CPU.Width = 140;
+			this.CPU.Width = 91;
 			// 
 			// btn_KillProcess
 			// 
 			this.btn_KillProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn_KillProcess.Location = new System.Drawing.Point(707, 420);
+			this.btn_KillProcess.Location = new System.Drawing.Point(431, 382);
 			this.btn_KillProcess.Margin = new System.Windows.Forms.Padding(2);
 			this.btn_KillProcess.Name = "btn_KillProcess";
-			this.btn_KillProcess.Size = new System.Drawing.Size(82, 19);
+			this.btn_KillProcess.Size = new System.Drawing.Size(100, 24);
 			this.btn_KillProcess.TabIndex = 4;
 			this.btn_KillProcess.Text = "Kill Process";
 			this.btn_KillProcess.UseVisualStyleBackColor = true;
@@ -98,9 +98,10 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(532, 417);
 			this.Controls.Add(this.btn_KillProcess);
 			this.Controls.Add(this.lv_ProcList);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "MainForm";
 			this.Text = "Form1";
 			this.ResumeLayout(false);

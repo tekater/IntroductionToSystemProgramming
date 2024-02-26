@@ -31,10 +31,9 @@ namespace TaskManager
 			foreach (Process process in processes)
 			{
 				cpu = new PerformanceCounter("Process", "% Processor Time",		process.ProcessName);
-				ram = new PerformanceCounter("Process", "Working Set - Private",	process.ProcessName);
+				ram = new PerformanceCounter("Process", "Working Set - Private",process.ProcessName);
 
 				string[] items = null;
-
 				items = new string[] 
 				{
 					process.ProcessName,
@@ -45,6 +44,7 @@ namespace TaskManager
 
 				lvItem = new ListViewItem(items);
 				lvItem.Group = (process.MainWindowHandle == IntPtr.Zero ? lv_ProcList.Groups["BGProc"] : lv_ProcList.Groups["Applications"]);
+
 				lv_ProcList.Items.Add(lvItem);
 			}
 		}
