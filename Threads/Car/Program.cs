@@ -11,6 +11,7 @@ namespace Car
 		static void Main(string[] args)
 		{
 			Car car = new Car(10, 40, 250);
+			car.Info();
 			car.Control();
             Console.Read();
 		}

@@ -18,7 +18,7 @@ namespace Car
 		{
 			get => fuel_level;
 		}
-		public double give_fuel(double amount)
+		public double GiveFuel(double amount)
 		{
 			fuel_level -= amount;
 			if (fuel_level < 0)
