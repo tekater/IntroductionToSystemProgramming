@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextWindow", "TextWindow\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager", "TaskManager\TaskManager.csproj", "{2C08E5AA-00E2-4AED-9F08-35632C68EA08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "a", "a\a.csproj", "{A2503896-9621-4058-A293-A2B6D2F49136}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{2C08E5AA-00E2-4AED-9F08-35632C68EA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C08E5AA-00E2-4AED-9F08-35632C68EA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C08E5AA-00E2-4AED-9F08-35632C68EA08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2503896-9621-4058-A293-A2B6D2F49136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2503896-9621-4058-A293-A2B6D2F49136}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2503896-9621-4058-A293-A2B6D2F49136}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2503896-9621-4058-A293-A2B6D2F49136}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
