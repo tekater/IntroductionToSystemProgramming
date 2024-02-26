@@ -153,8 +153,11 @@ namespace Car
 						{
 							if (!engine.Started)
 							{
+								if(tank.FuelLevel > 0)
+								{
 								engine.Start();
 								engine_idle();
+								}
 							}
 							else
 							{
