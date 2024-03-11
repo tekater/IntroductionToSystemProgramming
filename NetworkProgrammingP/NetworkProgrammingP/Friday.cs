@@ -14,11 +14,6 @@ namespace NetworkProgrammingP
 		private IPAddress ip;
 		private IPAddress mask;
 
-		private IPAddress netAddress;
-		private IPAddress bcAddress;
-
-		private uint maxHosts;
-
 		public Friday(string ip, string bufMask) 
 		{//Парсинг
 			this.ip   = IPAddress.Parse(ip);
@@ -33,7 +28,7 @@ namespace NetworkProgrammingP
 
 			for (int i = 0; i < netBytes.Length; i++)
 			{
-				netBytes[i] = (byte)(ipBytes[i] & maskBytes[i]);
+				netBytes[i] = (byte)(ipBytes[i] & maskBytes[i]); // Побитовое умножение с логическим И
 			}
 
 			return new IPAddress(netBytes);
@@ -41,14 +36,14 @@ namespace NetworkProgrammingP
 
 		public IPAddress GetBCAddress()
 		{
-			byte[] ipBytes   = ip.GetAddressBytes();
+			byte[] ipBytes   = ip.GetAddressBytes();// Перевод в байты
 			byte[] maskBytes = mask.GetAddressBytes();
 
 			byte[] broadcastBytes = new byte[ipBytes.Length];
 
 			for (int i = 0; i < broadcastBytes.Length; i++)
-			{
-				broadcastBytes[i] = (byte)(ipBytes[i] | ~maskBytes[i]);
+			{ // ~ инверт
+				broadcastBytes[i] = (byte)(ipBytes[i] | ~maskBytes[i]);//
 			}
 
 			return new IPAddress(broadcastBytes);
@@ -57,21 +52,14 @@ namespace NetworkProgrammingP
 		public uint GetMaxHosts()
 		{
 			byte[] maskBytes  = mask.GetAddressBytes();
-			uint invertedMask = ~BitConverter.ToUInt32(maskBytes.Reverse().ToArray(), 0);
+			uint invertedMask = ~BitConverter.ToUInt32(maskBytes.Reverse().ToArray(), 0); //Конвертирует 4 Bytes из массива в 32-Bit  ~uint
 			return invertedMask - 1;
-		}
-		public void Calculate()
-		{
-			netAddress = GetNetAddress();
-			bcAddress  = GetBCAddress();
-			maxHosts   = GetMaxHosts();
 		}
 		public void Print()
 		{
-			Calculate();
-			Console.WriteLine($"Адрес сети: {netAddress}");
-			Console.WriteLine($"Широковещательный адрес: {bcAddress}");
-			Console.WriteLine($"Максимальное количество хостов: {maxHosts}");
+			Console.WriteLine($"Адрес сети: {GetNetAddress()}");
+			Console.WriteLine($"Широковещательный адрес: {GetBCAddress()}");
+			Console.WriteLine($"Максимальное количество хостов: {GetMaxHosts()}");
 		}
 	}
 }
