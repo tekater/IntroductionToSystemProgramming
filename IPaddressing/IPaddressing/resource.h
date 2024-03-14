@@ -3,10 +3,10 @@
 // Used by IPaddressing.rc
 //
 #define IDD_DIALOG_MAIN                 101
-#define IDC_IPADDRESS                  1001
+#define IDC_IPADDRESS                   1001
 #define IDC_IPMASK                      1002
-#define IDC_EDIT_PREFIX                       1003
 #define IDC_EDIT_PREFIX                 1003
+//#define IDC_EDIT_PREFIX                 1003
 #define IDC_SPIN_PREFIX                 1004
 #define IDC_STATIC_INFO                 1005
 
