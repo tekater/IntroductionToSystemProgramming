@@ -19,9 +19,22 @@ Socket::Socket()
 	}
 }
 
+Socket::Socket(string username):Socket()
+{
+	this->username = username;
+}
+
+Socket::~Socket()
+{
+	WSACleanup();
+}
+
 bool Socket::SendData(char* buffer)
 {
-	cout << username << ": ";
+	if (username.length() > 0)
+	{
+		cout << username << ": ";
+	}
 	send(_socket, buffer, strlen(buffer), 0);
 	return true;
 }
@@ -37,15 +50,23 @@ void Socket::CloseConnection()
 	closesocket(_socket);
 }
 
-void Socket::SendDataMessage()
+CONST CHAR* Socket::SendDataMessage()
 {
 	CHAR message[MAXSTRLEN]{};
+	CHAR buffer[MAXSTRLEN]{};
+	ZeroMemory(message,sizeof(message));
+	ZeroMemory(buffer, sizeof(buffer));
 	cout << "Enter message: ";
-	cin.get(message, MAXSTRLEN);
+	cin.ignore();
+	cin.get(buffer, MAXSTRLEN);
+	sprintf(message, "%s: %s", username.c_str(), buffer);
 	SendData(message);
+	return message;
 }
 
-void Socket::SetUsername(char* name)
-{
-	strcpy(username, name);
-}
+
+
+//void Socket::SetUsername(char* name)
+//{
+//	strcpy(username, name);
+//}
